@@ -10,6 +10,10 @@
          ffi/unsafe
          ffi/unsafe/define
          x11-racket/fd
+         ; go to you racket project directory and do:
+         ; git clone http://github.com/kazzmir/x11-racket.git
+         ; raco link x11-racket
+         ; raco setup x11-racket
          racket/class
          racket/port
          racket/dict
