@@ -62,7 +62,7 @@
 ;; An additional dictionary of (errsym . string) can be given 
 ;; which is used in priority. If the errsym is not found in the
 ;; dictionary, it is looked up in the default one.
-;; (see inotify-ffi.rkt for some examples)
+;; (see inotify.rkt for some examples)
 (define (errsym->string sym [dict '()])
   (let ([no (errsym->errno sym)])
     (format "Error ~a (~a): ~a" no sym

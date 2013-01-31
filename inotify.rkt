@@ -7,13 +7,13 @@
 ;;; author (FFI): Laurent orseau <laurent orseau gmail com> - 2013-01-04
 
 (require "errno-base.rkt"
-         ffi/unsafe
-         ffi/unsafe/define
          x11-racket/fd
-         ; go to you racket project directory and do:
+         ; go to your racket project directory and do:
          ; git clone http://github.com/kazzmir/x11-racket.git
          ; raco link x11-racket
          ; raco setup x11-racket
+         ffi/unsafe
+         ffi/unsafe/define
          racket/class
          racket/port
          racket/dict
@@ -195,21 +195,21 @@ after adding the watch.
   (require rackunit)
   (displayln "Tests"))
 
-;; Converts the bytes to a string, like bytes->string/latin-1
+;; Converts the bytes to a string, like bytes->string/locale
 ;; but omits the null bytes at the end of the byte string.
-;; b: bytes?
-;; -> string?
-(define (null-terminated-bytes->string/latin-1 b)
+;; bytes? -> string?
+(define (null-terminated-bytes->string/locale b)
   (define len
     (or
-     (for/or ([i (in-range (sub1 (bytes-length b)) 0 -1)])
-       (and (not (= 0 (bytes-ref b i)))
-            (add1 i)))
+     (for/or ([i (in-range (bytes-length b) 0 -1)])
+       (and (not (= 0 (bytes-ref b (sub1 i))))
+            i))
      0))
-  (bytes->string/latin-1 b #f 0 len))
+  (bytes->string/locale b #f 0 len))
 
 (module+ test
-  (let ([proc null-terminated-bytes->string/latin-1])
+  (let ([proc null-terminated-bytes->string/locale])
+    (check-equal? "A" (proc (bytes 65 0 0)))
     (check-equal? "ABC" (proc (bytes 65 66 67)))
     (check-equal? "ABC" (proc (bytes 65 66 67 0)))
     (check-equal? "ABC" (proc (bytes 65 66 67 0 0)))
@@ -290,7 +290,7 @@ after adding the watch.
                             (define len (inotify_event-len ev))
                             (define name #f)
                             (when (> len 0)
-                              (set! name (null-terminated-bytes->string/latin-1 (read-bytes len in))))
+                              (set! name (null-terminated-bytes->string/locale (read-bytes len in))))
                             (print (list 'name name))
                             (newline)
                             
