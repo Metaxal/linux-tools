@@ -7,7 +7,6 @@
 ;;; author (FFI): Laurent orseau <laurent orseau gmail com> - 2013-01-04
 
 (require "errno-base.rkt"
-         x11/fd ; raco pkg install x11
          ffi/unsafe
          ffi/unsafe/define
          racket/class
@@ -69,6 +68,10 @@ See also:
 ;=================;
 
 (define-ffi-definer define-inotify (ffi-lib #f))
+
+(define open-fd-input-port
+  (get-ffi-obj "scheme_make_fd_input_port" (ffi-lib #f)
+    (_fun (fd : _int) (_scheme = "fd-port") (_int = 0) (_int = 0) -> _racket)))
 
 (define _flags
   (_bitmask
