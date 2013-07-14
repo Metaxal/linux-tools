@@ -7,11 +7,7 @@
 ;;; author (FFI): Laurent orseau <laurent orseau gmail com> - 2013-01-04
 
 (require "errno-base.rkt"
-         x11-racket/fd
-         ; go to your racket project directory and do:
-         ; git clone http://github.com/kazzmir/x11-racket.git
-         ; raco link x11-racket
-         ; raco setup x11-racket
+         x11/fd ; raco pkg install x11
          ffi/unsafe
          ffi/unsafe/define
          racket/class
@@ -59,6 +55,12 @@ in that tree, be aware that by the time you create a watch for the new
 subdirectory, new files may already have been created in the subdirectory.
 Therefore, you may want to scan the contents of the subdirectory immediately
 after adding the watch. 
+
+** Misc **
+
+See also:
+- https://github.com/samdphillips/racket-inotify
+- https://github.com/highfly22/alert/blob/master/inotify.rkt
 
 |#
 
